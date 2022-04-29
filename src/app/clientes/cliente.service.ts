@@ -10,13 +10,13 @@ export class ClienteService {
 
   getClientes(): void {
     //return [...this.clientes];
-    this.httpClient.get<{mensagem: string, clientes: Cliente[]}>
-    ('http://localhost:3000/api/clientes').subscribe(
-      (dados) => {
-        this.clientes = dados.clientes;
-        this.listaClientesAtualizada.next([...this.clientes]);
-      }
-    )
+    this.httpClient.get<{ mensagem: string, clientes: Cliente[] }>
+      ('http://localhost:3000/api/clientes').subscribe(
+        (dados) => {
+          this.clientes = dados.clientes;
+          this.listaClientesAtualizada.next([...this.clientes]);
+        }
+      )
   }
 
   getListaDeClientesAtualizadaObservable() {
@@ -29,10 +29,17 @@ export class ClienteService {
       fone: fone,
       email: email,
     };
-    this.clientes.push(cliente);
-    this.listaClientesAtualizada.next([...this.clientes]);
+    this.httpClient.post<{ mensagem: string }>('http://localhost:3000/api/clientes',
+      cliente).subscribe(
+        (dados) => {
+          console.log(dados.mensagem);
+          this.clientes.push(cliente);
+          this.listaClientesAtualizada.next([...this.clientes]);
+        }
+      )
   }
-  constructor (private httpClient: HttpClient) {
+
+  constructor(private httpClient: HttpClient) {
 
   }
 }
