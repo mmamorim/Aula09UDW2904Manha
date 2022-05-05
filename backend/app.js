@@ -4,17 +4,19 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 // DADOS DE CONEXÃO COM O MONGO DB
-let senha = require("./senha.js")
-let nomeBanco = 'teste01'
-let userName = 'mamorim'
-let clusterUrl = '@clusterteste1.vcnmu.mongodb.net/'
-let connectionString = `mongodb+srv://${userName}:${senha}${clusterUrl}${nomeBanco}?retryWrites=true&w=majority`
+// let senha = require("./senha.js")
+// let nomeBanco = 'teste01'
+// let userName = 'mamorim'
+// let clusterUrl = '@clusterteste1.vcnmu.mongodb.net/'
+// let connectionString = `mongodb+srv://${userName}:${senha}${clusterUrl}${nomeBanco}?retryWrites=true&w=majority`
 
-mongoose.connect(connectionString).then(() => {
-  console.log("Conexão mongo OK :)")
-}).catch((e) => {
-  console.log("Conexão mongo deu ruim :( ", e.message)
-});
+mongoose.connect('mongodb+srv://kiro-mean6:kiro-mean6@cluster0.g1pqb.mongodb.net/appmean?retryWrites=true&w=majority')
+.then(()=>{
+  console.log('Conexão OK');
+})
+.catch(()=>{
+  console.log('errouuuu');
+})
 
 const app = express();
 app.use(cors());
@@ -45,12 +47,13 @@ const clientes = [
 ]
 
 app.get('/api/clientes', (req, res, next) => {
-  res.status(200).json({
-    mensagem: "Tudo certo",
-    clientes: clientes
-  });
+  Cliente.find().then(documents => {
+    res.status(200).json({
+      mensagem: "Tudo OK",
+      clientes: documents
+    });
+  })
 });
-console.log("adicionado rota GET /api/clientes");
 
 app.post('/api/clientes', (req, res, next) => {
   console.log("Recebi request POST na rota /api/clientes ", req.body);
