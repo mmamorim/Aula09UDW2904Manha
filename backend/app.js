@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 // let clusterUrl = '@clusterteste1.vcnmu.mongodb.net/'
 // let connectionString = `mongodb+srv://${userName}:${senha}${clusterUrl}${nomeBanco}?retryWrites=true&w=majority`
 
-mongoose.connect('mongodb+srv://kiro-mean6:kiro-mean6@cluster0.g1pqb.mongodb.net/appmean?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://user_20221:user_20221@cluster0.skf8n.mongodb.net/app-mean?retryWrites=true&w=majority')
 .then(()=>{
   console.log('Conexão OK');
 })
@@ -48,6 +48,7 @@ const clientes = [
 
 app.get('/api/clientes', (req, res, next) => {
   Cliente.find().then(documents => {
+    console.log(documents)
     res.status(200).json({
       mensagem: "Tudo OK",
       clientes: documents
@@ -66,7 +67,12 @@ app.post('/api/clientes', (req, res, next) => {
   cliente.save();
   res.status(201).json({ mensagem: 'Cliente inserido' })
 });
-console.log("adicionado rota POST /api/clientes");
+// console.log("adicionado rota POST /api/clientes");
 
-
+app.delete('/api/clientes/:id', (req, res, next) => {
+  Cliente.deleteOne({_id: req.params.id}).then(resultado => {
+    console.log(resultado);
+    res.status(200).json({mensagem: "Cliente removido com sucesso"});
+  });
+});
 module.exports = app;
