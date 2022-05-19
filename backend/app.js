@@ -64,10 +64,13 @@ app.post('/api/clientes', (req, res, next) => {
     email: req.body.email
   })
   console.log(cliente);
-  cliente.save();
-  res.status(201).json({ mensagem: 'Cliente inserido' })
+  cliente.save()
+  .then((clienteInserido) => {
+    res.status(201).json({
+    mensagem: 'Cliente inserido',
+    id: clienteInserido._id })
+  });
 });
-// console.log("adicionado rota POST /api/clientes");
 
 app.delete('/api/clientes/:id', (req, res, next) => {
   Cliente.deleteOne({_id: req.params.id}).then(resultado => {

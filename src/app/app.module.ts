@@ -12,6 +12,7 @@ import { CabecalhoComponent } from './cabecalho/cabecalho.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ClienteListaComponent } from './clientes/cliente-lista/cliente-lista.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { AppRoutingModule } from './app-routing.module';
 
 import { ClienteService } from './clientes/cliente.service';
 
@@ -31,7 +32,8 @@ import { ClienteService } from './clientes/cliente.service';
     MatButtonModule,
     MatToolbarModule,
     MatExpansionModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [ClienteService],
   bootstrap: [AppComponent],
