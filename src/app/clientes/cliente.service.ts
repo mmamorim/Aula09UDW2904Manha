@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Cliente } from './cliente.model';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators'
+import { map } from 'rxjs/operators';
+import { Router } from '@angular/Router';
 
 @Injectable({ providedIn: 'root' })
 export class ClienteService {
@@ -47,8 +48,8 @@ export class ClienteService {
           cliente.id = dados.id;
           this.clientes.push(cliente);
           this.listaClientesAtualizada.next([...this.clientes]);
-        }
-      )
+          this.router.navigate(['/'])
+        })
   }
 
   removerCliente(id: string): void{
@@ -69,10 +70,18 @@ export class ClienteService {
 
   atualizarCliente(id:string, nome: string, fone: string, email: string) {
     const cliente: Cliente = {id, nome, fone, email};
-    this.httpClient.put(`http://localhost:3000/api/clientes/${id}`, cliente).subscribe(res => console.log(res));
+    this.httpClient.put(`http://localhost:3000/api/clientes/${id}`, cliente)
+    .subscribe(res => {
+      const copia = [...this.clientes];
+      const posicao = copia.findIndex(cli => cli.id = cliente.id);
+      copia[posicao] = cliente;
+      this.clientes = copia;
+      this.listaClientesAtualizada.next([...this.clientes]);
+      this.router.navigate(['/'])
+    });
   }
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
 
   }
 }
