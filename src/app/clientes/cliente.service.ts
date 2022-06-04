@@ -3,7 +3,7 @@ import { Cliente } from './cliente.model';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Router } from '@angular/Router';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class ClienteService {
